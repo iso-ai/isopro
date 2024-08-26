@@ -5,7 +5,7 @@ This module defines the AdversarialAgent class, which can apply various attacks 
 """
 
 from typing import Dict, Any
-from ..agents.ai_agent import AI_Agent
+from isopro.agents.ai_agent import AI_Agent
 import logging
 
 logger = logging.getLogger(__name__)

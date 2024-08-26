@@ -1,4 +1,4 @@
-isopro/__init__.py
+# isopro/__init__.py
 
 """
 isopro: Intelligent Simulation Orchestration for LLMs
@@ -28,7 +28,7 @@ __all__ = [
     "AI_Agent",
     "BaseComponent",
     "SimulationWrapper",
-    "RLEnvironment",
+    "BaseRLEnvironment",
     "RLAgent",
     "ConversationSimulator",
     "ConversationEnvironment",

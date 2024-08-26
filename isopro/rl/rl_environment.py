@@ -5,8 +5,8 @@ one for LLM-based environments and another for traditional gym environments.
 """
 
 import gymnasium as gym
+from gymnasium import spaces
 import numpy as np
-from gym.spaces import spaces
 import anthropic
 import os
 import logging

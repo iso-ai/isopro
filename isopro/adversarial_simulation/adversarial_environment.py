@@ -6,7 +6,7 @@ This module defines the AdversarialEnvironment class, which manages adversarial 
 
 import random
 from typing import List, Dict, Any
-from ..environments.simulation_environment import SimulationEnvironment
+from isopro.environments.simulation_environment import SimulationEnvironment
 from .adversarial_agent import AdversarialAgent
 from .attack_utils import get_model_and_tokenizer, create_attack, get_available_attacks
 import logging

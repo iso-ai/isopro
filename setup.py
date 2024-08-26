@@ -50,4 +50,3 @@ setup(
         "isopro": ["py.typed"],
     },
 )
-)

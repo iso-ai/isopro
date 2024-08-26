@@ -5,7 +5,7 @@ This module provides a high-level interface for running adversarial simulations.
 """
 
 from typing import List, Dict, Any
-from .adversarial_envrionment import AdversarialEnvironment
+from .adversarial_environment import AdversarialEnvironment
 import logging
 
 logger = logging.getLogger(__name__)

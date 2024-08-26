@@ -1,6 +1,6 @@
 """Logging utilities for the isopro package."""
+
 import logging
-import sys
 
 def setup_logger(name, level=logging.INFO):
     """
@@ -16,4 +16,17 @@ def setup_logger(name, level=logging.INFO):
     logger = logging.getLogger(name)
     logger.setLevel(level)
 
-    if not logger
+    # Check if the logger already has handlers to avoid duplicate logs
+    if not logger.handlers:
+        # Create a console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(level)
+
+        # Create a formatter and set it for the handler
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        console_handler.setFormatter(formatter)
+
+        # Add the handler to the logger
+        logger.addHandler(console_handler)
+
+    return logger
