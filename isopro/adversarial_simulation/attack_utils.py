@@ -6,11 +6,11 @@ This module provides utility functions for creating and managing adversarial att
 
 import torch
 from typing import Tuple, Callable
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from isoadverse.attacks.text_fgsm import text_fgsm_attack
 from isoadverse.attacks.text_pgd import text_pgd_attack
 from isoadverse.attacks.textbugger import textbugger_attack
 from isoadverse.attacks.deepwordbug import deepwordbug_attack
-from isoadverse.utils.model_loader import get_model_and_tokenizer
 import logging
 
 logger = logging.getLogger(__name__)
@@ -25,7 +25,8 @@ def get_model_and_tokenizer(model_name: str = 'bert-base-uncased') -> Tuple[torc
     Returns:
         Tuple[torch.nn.Module, torch.nn.Module]: The loaded model and tokenizer.
     """
-    model, tokenizer = get_model_and_tokenizer(model_name)
+    model = AutoModelForSequenceClassification.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     logger.info(f"Loaded model {model_name} on {device}")

@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="isopro",
-    version="0.1.0",
+    version="0.1.0",  # Updated version
     packages=find_packages(),
     install_requires=[
         "numpy",
@@ -15,10 +15,16 @@ setup(
         "scikit-learn",
         "anthropic",
         "openai",
-        "gym",
+        "gymnasium",  # Updated from gym
         "stable-baselines3",
         "nltk",
         "rouge",
+        "tqdm",
+        "matplotlib",
+        "seaborn",
+        "python-dotenv",
+        "langchain",
+        "langchain_openai",
     ],
     author="Jazmia Henry",
     author_email="isojaz@isoai.co",
@@ -27,7 +33,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/yourusername/isopro",
     project_urls={
-        "Bug Tracker": "https://https://github.com/iso-ai/isopro//tree/main/.github/ISSUE_TEMPLATE.md",
+        "Bug Tracker": "https://github.com/iso-ai/isopro/tree/main/.github/ISSUE_TEMPLATE.md",
         "Documentation": "https://github.com/yourusername/isopro/wiki",
     },
     classifiers=[

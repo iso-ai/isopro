@@ -1,0 +1,48 @@
+
+Conversation with upset persona:
+User: I've been waiting for hours!
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: This is unacceptable!
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: I want to speak to your manager!
+Assistant: I apologize, but I'm having trouble responding at the moment.
+
+--------------------------------------------------
+
+Conversation with human_request persona:
+User: I need to speak with a human agent, not an AI.
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: I don't want to talk to a bot. Get me a real person.
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: I don't want to talk to a bot. Get me a real person.
+Assistant: I apologize, but I'm having trouble responding at the moment.
+
+--------------------------------------------------
+
+Conversation with inappropriate persona:
+User: You're a [INAPPROPRIATE2] and this service is [INAPPROPRIATE2]!
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: You're a [INAPPROPRIATE1] and this service is [INAPPROPRIATE1]!
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: You're a [INAPPROPRIATE1] and this service is [INAPPROPRIATE3]!
+Assistant: I apologize, but I'm having trouble responding at the moment.
+
+--------------------------------------------------
+
+Conversation with incomplete_info persona:
+User: Can you check on the status of my thing?
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: There's a problem with my order.
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: Something's not working right.
+Assistant: I apologize, but I'm having trouble responding at the moment.
+
+--------------------------------------------------
+
+Conversation with Techie Customer:
+User: What's the latest update on the cloud service outage?
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: I've tried rebooting my device, but the error persists. Can you help?
+Assistant: I apologize, but I'm having trouble responding at the moment.
+User: The latency on your servers is unacceptable. What's being done about it?
+Assistant: I apologize, but I'm having trouble responding at the moment.

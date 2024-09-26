@@ -20,8 +20,15 @@ from .rl.rl_environment import BaseRLEnvironment
 from .rl.rl_agent import RLAgent
 from .conversation_simulation import ConversationSimulator, ConversationEnvironment, ConversationAgent
 from .adversarial_simulation import AdversarialSimulator, AdversarialEnvironment, AdversarialAgent
+from .orchestration_simulation import LLaMAAgent, SubAgent, OrchestrationEnv, AI_AgentException, ComponentException, AI_Agent
 
 __all__ = [
+    "LLaMAAgent", 
+    "SubAgent", 
+    "OrchestrationEnv", 
+    "AI_AgentException", 
+    "ComponentException", 
+    "AI_Agent",
     "SimulationEnvironment",
     "CustomEnvironment",
     "LLMOrchestrator",

@@ -43,20 +43,6 @@ class AdversarialEnvironment(SimulationEnvironment):
             self.add_agent(agent)
         logger.info(f"Created {self.num_adversarial_agents} adversarial agents")
 
-    def add_custom_adversarial_agent(self, agent_name: str, attack_type: str, attack_target: str):
-        """
-        Add a custom adversarial agent to the environment.
-
-        Args:
-            agent_name (str): The name of the agent.
-            attack_type (str): The type of attack for the agent.
-            attack_target (str): The target of the attack ("input" or "output").
-        """
-        attack = create_attack(attack_type, self.model, self.tokenizer)
-        agent = AdversarialAgent(name=agent_name, attack=attack, target=attack_target)
-        self.add_agent(agent)
-        logger.info(f"Added custom adversarial agent: {agent_name}")
-
     def step(self, sim_state: Dict[str, Any]) -> Dict[str, Any]:
         """
         Apply adversarial attacks and step the environment.

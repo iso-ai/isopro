@@ -5,23 +5,19 @@ This module provides a high-level interface for running adversarial simulations.
 """
 
 from typing import List, Dict, Any
-from .adversarial_environment import AdversarialEnvironment
 import logging
 
 logger = logging.getLogger(__name__)
 
 class AdversarialSimulator:
-    def __init__(self, agent_wrapper, num_adversarial_agents: int = 1, attack_types: List[str] = None, attack_targets: List[str] = None):
+    def __init__(self, environment):
         """
         Initialize the AdversarialSimulator.
 
         Args:
-            agent_wrapper: The wrapped agent to use in the simulation.
-            num_adversarial_agents (int): The number of adversarial agents to create.
-            attack_types (List[str], optional): The types of attacks to use. If None, all available attacks will be used.
-            attack_targets (List[str], optional): The targets for the attacks ("input", "output", or both). If None, both will be used.
+            environment: The AdversarialEnvironment to use in the simulation.
         """
-        self.environment = AdversarialEnvironment(agent_wrapper, num_adversarial_agents, attack_types, attack_targets)
+        self.environment = environment
         logger.info("Initialized AdversarialSimulator")
 
     def run_simulation(self, input_data: List[str], num_steps: int = 1) -> List[Dict[str, Any]]:
@@ -38,12 +34,13 @@ class AdversarialSimulator:
         results = []
         for text in input_data:
             sim_state = {"text": text, "output": ""}
+            original_output = self.environment.agent_wrapper.run({"text": text})
             for _ in range(num_steps):
                 sim_state = self.environment.step(sim_state)
             results.append({
                 "original_input": text,
                 "perturbed_input": sim_state["text"],
-                "original_output": self.environment.agent_wrapper.run({"text": text}),
+                "original_output": original_output,
                 "perturbed_output": sim_state["output"]
             })
         logger.info(f"Completed simulation with {len(input_data)} inputs and {num_steps} steps each")

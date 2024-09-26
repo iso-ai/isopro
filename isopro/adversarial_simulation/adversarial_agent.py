@@ -37,9 +37,15 @@ class AdversarialAgent(AI_Agent):
         """
         logger.info(f"Running adversarial agent: {self.name}")
         if self.target == "input":
-            input_data['text'] = self.attack(input_data['text'])
+            if input_data.get('text'):
+                input_data['text'] = self.attack(input_data['text'])
+            else:
+                logger.warning("Input text is empty or missing. Skipping attack.")
         elif self.target == "output":
-            input_data['output'] = self.attack(input_data['output'])
+            if input_data.get('output'):
+                input_data['output'] = self.attack(input_data['output'])
+            else:
+                logger.warning("Output text is empty or missing. Skipping attack.")
         else:
             raise ValueError(f"Invalid target: {self.target}")
         return input_data
