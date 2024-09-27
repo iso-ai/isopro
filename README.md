@@ -4,13 +4,13 @@ ISOPRO is a powerful and flexible Python package designed for creating, managing
 
 ## Features
 
-- **Custom Environment Creation**: Easily create and manage custom simulation environments for LLMs. COMING SOON
-- **Conversation Simulation**: Simulate and analyze conversations with AI agents using various user personas. COMING SOON
-- **Adversarial Testing**: Conduct adversarial simulations to test the robustness of LLM-based systems. COMING SOON
-- **Reinforcement Learning**: Implement and experiment with RL algorithms in LLM contexts. COMING SOON
+- **Custom Environment Creation**: Easily create and manage custom simulation environments for LLMs. 
+- **Conversation Simulation**: Simulate and analyze conversations with AI agents using various user personas. 
+- **Adversarial Testing**: Conduct adversarial simulations to test the robustness of LLM-based systems. 
+- **Reinforcement Learning**: Implement and experiment with RL algorithms in LLM contexts. 
 - **Utility Functions**: Analyze simulation results, calculate LLM metrics, and more.
 - **Flexible Integration**: Works with popular LLM platforms like OpenAI's GPT models, Claude (Anthropic), and Hugging Face models.
-- **Orchestration Simulation**: Manage and execute complex multi-agent simulations with different execution modes. **NOW AVAILABLE**
+- **Orchestration Simulation**: Manage and execute complex multi-agent simulations with different execution modes. 
 
 # isopro
 
@@ -105,29 +105,20 @@ import gymnasium as gym
 from isopro.rl.rl_agent import RLAgent
 from isopro.rl.rl_environment import LLMRLEnvironment
 from stable_baselines3 import PPO
+from isopro.rl.llm_cartpole_wrapper import LLMCartPoleWrapper
 
-class LLMCartPoleWrapper(LLMRLEnvironment):
-    def __init__(self, agent_prompt):
-        super().__init__(agent_prompt, None)
-        self.cartpole_env = gym.make('CartPole-v1')
-        self.action_space = self.cartpole_env.action_space
-        self.observation_space = self.cartpole_env.observation_space
 
-    def step(self, action):
-        observation, reward, terminated, truncated, info = self.cartpole_env.step(action)
-        self._update_llm(observation, reward, terminated or truncated)
-        return observation, reward, terminated, truncated, info
 
 agent_prompt = """You are an AI trained to play the CartPole game. 
 Your goal is to balance a pole on a moving cart for as long as possible. 
 You will receive observations about the cart's position, velocity, pole angle, and angular velocity. 
 Based on these, you should decide whether to move the cart left or right."""
 
-env = LLMCartPoleWrapper(agent_prompt)
-model = PPO("MlpPolicy", env, verbose=1)
+env = LLMCartPoleWrapper(agent_prompt, llm_call_limit=100, api_key=os.getenv("ANTHROPIC_API_KEY"))
+rl_agent = RLAgent("LLM_CartPole_Agent", env, algorithm='PPO')
 
 # Train the model
-model.learn(total_timesteps=10000)
+model.learn(total_timesteps=2)
 
 # Test the model
 obs, _ = env.reset()

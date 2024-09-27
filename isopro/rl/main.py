@@ -10,60 +10,14 @@ from typing import Optional, Dict, Any
 from tqdm import tqdm
 import json
 from datetime import datetime
+from .llm_cartpole_wrapper import LLMCartPoleWrapper
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
-class LLMCartPoleWrapper(LLMRLEnvironment):
-    def __init__(self, agent_prompt):
-        super().__init__(agent_prompt, None)
-        self.cartpole_env = gym.make('CartPole-v1')
-        self.action_space = self.cartpole_env.action_space
-        self.observation_space = self.cartpole_env.observation_space
-        self.client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-        self.agent_prompt = agent_prompt
-        logger.info("LLMCartPoleWrapper initialized")
-
-    def reset(self, *, seed: Optional[int] = None, options: Optional[Dict[str, Any]] = None):
-        self.conversation_history = []
-        obs, info = self.cartpole_env.reset(seed=seed, options=options)
-        logger.debug(f"Environment reset. Initial observation: {obs}")
-        return obs, info
-
-    def step(self, action):
-        cartpole_action = self._llm_decision_to_cartpole_action(action)
-        observation, reward, terminated, truncated, info = self.cartpole_env.step(cartpole_action)
-        self._update_llm(observation, reward, terminated or truncated)
-        logger.debug(f"Step taken. Action: {cartpole_action}, Reward: {reward}, Done: {terminated or truncated}")
-        return observation, reward, terminated, truncated, info
-
-    def _llm_decision_to_cartpole_action(self, llm_decision):
-        if isinstance(llm_decision, (int, np.integer)):
-            return llm_decision
-        elif isinstance(llm_decision, str):
-            return 0 if "left" in llm_decision.lower() else 1
-        else:
-            raise ValueError(f"Unexpected action type: {type(llm_decision)}")
-
-    def _update_llm(self, observation, reward, done):
-        user_message = f"Observation: {observation}, Reward: {reward}, Done: {done}. What action should we take next?"
-        
-        messages = self.conversation_history + [
-            {"role": "user", "content": user_message},
-        ]
-
-        response = self.client.messages.create(
-            model="claude-3-opus-20240229",
-            max_tokens=150,
-            system=self.agent_prompt,
-            messages=messages
-        )
-
-        ai_response = response.content[0].text
-        self.conversation_history.append({"role": "user", "content": user_message})
-        self.conversation_history.append({"role": "assistant", "content": ai_response})
-        logger.debug(f"LLM updated. AI response: {ai_response}")
 
 def main():
     # Create output folder
@@ -80,7 +34,7 @@ def main():
     Based on these, you should decide whether to move the cart left or right. 
     Respond with 'Move left' or 'Move right' for each decision."""
 
-    env = LLMCartPoleWrapper(agent_prompt)
+    env = LLMCartPoleWrapper(agent_prompt, llm_call_limit=100, api_key=os.getenv("ANTHROPIC_API_KEY"))
     rl_agent = RLAgent("LLM_CartPole_Agent", env, algorithm='PPO')
 
     logger.info("Starting training")

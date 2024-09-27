@@ -5,9 +5,11 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="isopro",
-    version="0.1.0",  # Updated version
+    version="0.1.4", # Added cartpole wrapper
     packages=find_packages(),
     install_requires=[
+        "isozero",
+        "iso-adverse",
         "numpy",
         "torch",
         "transformers",
@@ -15,7 +17,7 @@ setup(
         "scikit-learn",
         "anthropic",
         "openai",
-        "gymnasium",  # Updated from gym
+        "gymnasium",  
         "stable-baselines3",
         "nltk",
         "rouge",
