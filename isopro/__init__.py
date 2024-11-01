@@ -8,8 +8,9 @@ involving Large Language Models (LLMs), including reinforcement learning,
 conversation simulations, and adversarial testing.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.1.5"
 
+# Core components
 from .environments.simulation_environment import SimulationEnvironment
 from .environments.custom_environment import CustomEnvironment
 from .environments.llm_orchestrator import LLMOrchestrator
@@ -22,7 +23,26 @@ from .conversation_simulation import ConversationSimulator, ConversationEnvironm
 from .adversarial_simulation import AdversarialSimulator, AdversarialEnvironment, AdversarialAgent
 from .orchestration_simulation import LLaMAAgent, SubAgent, OrchestrationEnv, AI_AgentException, ComponentException, AI_Agent
 
+# Workflow simulation components
+from .workflow_simulation import (
+    WorkflowSimulator,
+    WorkflowEnvironment,
+    WorkflowState,
+    UIElement,
+    UIElementDetector,
+    MotionDetector,
+    EpisodeMetrics,
+    AgentConfig,
+    VisualizationConfig,
+    ValidationConfig,
+    WorkflowAutomation
+)
+
+# Car RL components
+from .car_simulator import CarRLEnvironment, LLMCarRLWrapper, CarVisualization
+
 __all__ = [
+    # Core components
     "LLaMAAgent", 
     "SubAgent", 
     "OrchestrationEnv", 
@@ -43,4 +63,22 @@ __all__ = [
     "AdversarialSimulator",
     "AdversarialEnvironment",
     "AdversarialAgent",
+    
+    # Workflow components
+    "WorkflowSimulator",
+    "WorkflowEnvironment",
+    "WorkflowState",
+    "UIElement",
+    "UIElementDetector", 
+    "MotionDetector",
+    "EpisodeMetrics",
+    "AgentConfig",
+    "VisualizationConfig",
+    "ValidationConfig",
+    "WorkflowAutomation",
+    
+    # Car RL components
+    "CarRLEnvironment",
+    "LLMCarRLWrapper",
+    "CarVisualization"
 ]

@@ -1,0 +1,36 @@
+{
+  "results": {
+    "mean_reward": 528.0,
+    "std_reward": 0.0,
+    "mean_length": 529.0,
+    "success_rate": 0.9090909090909091,
+    "total_episodes": 10
+  },
+  "config": {
+    "max_episodes": 1000,
+    "eval_episodes": 10,
+    "agent_config": {
+      "learning_rate": 0.0003,
+      "pretrain_epochs": 10,
+      "use_demonstration": true,
+      "use_reasoning": true,
+      "reward_threshold": 0.8,
+      "batch_size": 64,
+      "max_gradient_norm": 1.0,
+      "update_frequency": 1,
+      "buffer_size": 10000
+    },
+    "validation_config": {
+      "sequence_matching": true,
+      "state_validation": true,
+      "save_visualizations": true,
+      "action_weight": 0.4,
+      "target_weight": 0.3,
+      "timing_weight": 0.1,
+      "reasoning_weight": 0.2,
+      "timing_window": 0.5,
+      "min_target_iou": 0.5
+    }
+  },
+  "timestamp": "2024-10-31T19:56:04.798888"
+}

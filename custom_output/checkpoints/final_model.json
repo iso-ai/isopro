@@ -1,0 +1,11 @@
+{
+  "episode": 1,
+  "training_metrics": {
+    "mean_reward": 528.0,
+    "std_reward": 0.0,
+    "mean_length": 529.0,
+    "success_rate": 0.5,
+    "total_episodes": 1
+  },
+  "timestamp": "2024-10-31T19:55:50.986782"
+}
