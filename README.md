@@ -4,17 +4,15 @@ ISOPRO is a powerful and flexible Python package designed for creating, managing
 
 ## Features
 
-- **Custom Environment Creation**: Easily create and manage custom simulation environments for LLMs. 
-- **Conversation Simulation**: Simulate and analyze conversations with AI agents using various user personas. 
-- **Adversarial Testing**: Conduct adversarial simulations to test the robustness of LLM-based systems. 
-- **Reinforcement Learning**: Implement and experiment with RL algorithms in LLM contexts. 
-- **Utility Functions**: Analyze simulation results, calculate LLM metrics, and more.
-- **Flexible Integration**: Works with popular LLM platforms like OpenAI's GPT models, Claude (Anthropic), and Hugging Face models.
-- **Orchestration Simulation**: Manage and execute complex multi-agent simulations with different execution modes. 
-
-# isopro
-
-isopro is a Python package for running various types of AI simulations and experiments. It provides tools for adversarial testing, conversation simulation, reinforcement learning, and AI orchestration.
+- **Custom Environment Creation**: Easily create and manage custom simulation environments for LLMs
+- **Conversation Simulation**: Simulate and analyze conversations with AI agents using various user personas
+- **Adversarial Testing**: Conduct adversarial simulations to test the robustness of LLM-based systems
+- **Reinforcement Learning**: Implement and experiment with RL algorithms in LLM contexts
+- **Workflow Automation**: Learn and replicate UI workflows from video demonstrations
+- **Car Environment Simulation**: Train and evaluate RL agents in driving scenarios
+- **Utility Functions**: Analyze simulation results, calculate LLM metrics, and more
+- **Flexible Integration**: Works with popular LLM platforms like OpenAI's GPT models, Claude (Anthropic), and Hugging Face models
+- **Orchestration Simulation**: Manage and execute complex multi-agent simulations with different execution modes
 
 ## Installation
 
@@ -22,6 +20,18 @@ You can install isopro using pip:
 
 ```bash
 pip install isopro
+```
+
+For workflow simulation features, ensure you have the required dependencies:
+
+```bash
+pip install opencv-python numpy torch stable-baselines3 gymnasium tqdm
+```
+
+If you plan to use Claude capabilities:
+
+```bash
+export ANTHROPIC_API_KEY=your_api_key_here
 ```
 
 ## Usage
@@ -80,20 +90,78 @@ simulator = ConversationSimulator(
 conversation_history = simulator.run_simulation("upset", num_turns=3)
 
 # Run a simulation with a custom persona
-custom_persona_name = "Techie Customer"
-custom_characteristics = ["tech-savvy", "impatient", "detail-oriented"]
-custom_message_templates = [
-    "I've tried rebooting my device, but the error persists. Can you help?",
-    "What's the latest update on the cloud service outage?",
-    "I need specifics on the API rate limits for the enterprise plan."
-]
+custom_persona = {
+    "name": "Techie Customer",
+    "characteristics": ["tech-savvy", "impatient", "detail-oriented"],
+    "message_templates": [
+        "I've tried rebooting my device, but the error persists. Can you help?",
+        "What's the latest update on the cloud service outage?",
+        "I need specifics on the API rate limits for the enterprise plan."
+    ]
+}
 
-custom_conversation = simulator.run_custom_simulation(
-    custom_persona_name,
-    custom_characteristics,
-    custom_message_templates,
-    num_turns=3
+custom_conversation = simulator.run_custom_simulation(**custom_persona, num_turns=3)
+```
+
+### Workflow Simulation
+
+Automate UI workflows by learning from video demonstrations.
+
+```python
+from isopro.workflow_simulation import WorkflowAutomation, AgentConfig
+
+# Basic workflow automation
+automation = WorkflowAutomation(
+    video="path/to/workflow.mp4",
+    config="config.json",
+    output="output_dir",
+    logs="logs_dir"
 )
+automation.run()
+
+# Advanced configuration
+agent_config = AgentConfig(
+    learning_rate=3e-4,
+    pretrain_epochs=10,
+    use_demonstration=True,
+    use_reasoning=True
+)
+
+simulator = WorkflowSimulator(
+    video_path="path/to/video.mp4",
+    agent_config=agent_config,
+    viz_config=visualization_config,
+    validation_config=validation_config,
+    output_dir="output"
+)
+
+training_results = simulator.train_agents()
+evaluation_results = simulator.evaluate_agents()
+```
+
+### Car Reinforcement Learning
+
+Train and evaluate RL agents in driving scenarios.
+
+```python
+from isopro.car_simulation import CarRLEnvironment, LLMCarRLWrapper, CarVisualization
+
+# Create the car environment with LLM integration
+env = CarRLEnvironment()
+llm_env = LLMCarRLWrapper(env)
+
+# Initialize visualization
+viz = CarVisualization(env)
+
+# Train and visualize
+observation = llm_env.reset()
+for step in range(1000):
+    action = llm_env.get_action(observation)
+    observation, reward, done, info = llm_env.step(action)
+    viz.render(observation)
+    
+    if done:
+        observation = llm_env.reset()
 ```
 
 ### Reinforcement Learning with LLM
@@ -106,8 +174,6 @@ from isopro.rl.rl_agent import RLAgent
 from isopro.rl.rl_environment import LLMRLEnvironment
 from stable_baselines3 import PPO
 from isopro.rl.llm_cartpole_wrapper import LLMCartPoleWrapper
-
-
 
 agent_prompt = """You are an AI trained to play the CartPole game. 
 Your goal is to balance a pole on a moving cart for as long as possible. 
@@ -169,12 +235,14 @@ For more detailed information on each module and its usage, please refer to the 
 
 ## Examples
 
-The [isopro examples](https://github.com/iso-ai/isopro_examples) repository in the repository contains Jupyter notebooks with more detailed examples:
+The [isopro examples](https://github.com/iso-ai/isopro_examples) repository contains Jupyter notebooks with detailed examples:
 
-- `adversarial_example.ipynb`: Demonstrates adversarial testing of language models.
-- `conversation_simulation_example.ipynb`: Shows how to simulate conversations with various user personas.
-- `run_cartpole_example.ipynb`: Illustrates the integration of LLMs with reinforcement learning.
-- `orchestrator_example.ipynb`: Provides a tutorial on using the AI orchestration capabilities.
+- `adversarial_example.ipynb`: Demonstrates adversarial testing of language models
+- `conversation_simulation_example.ipynb`: Shows how to simulate conversations with various user personas
+- `workflow_automation_example.ipynb`: Illustrates automated UI workflow learning
+- `car_rl_example.ipynb`: Demonstrates car environment training scenarios
+- `run_cartpole_example.ipynb`: Illustrates the integration of LLMs with reinforcement learning
+- `orchestrator_example.ipynb`: Provides a tutorial on using the AI orchestration capabilities
 
 ## Contributing
 
@@ -186,7 +254,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-If you encounter any problems or have any questions, please [open an issue](https://github.com/yourusername/isopro/issues) on our GitHub repository.
+If you encounter any problems or have any questions, please [open an issue](https://github.com/iso-ai/isopro/issues) on our GitHub repository.
 
 ## Citation
 
