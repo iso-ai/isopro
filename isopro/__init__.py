@@ -8,7 +8,7 @@ involving Large Language Models (LLMs), including reinforcement learning,
 conversation simulations, and adversarial testing.
 """
 
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 
 # Core components
 from .environments.simulation_environment import SimulationEnvironment
