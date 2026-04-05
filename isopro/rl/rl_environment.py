@@ -334,22 +334,50 @@ class GymRLEnvironment(BaseEnvironment, gym.Env):
 # ---------------------------------------------------------------------------
 
 
-def _load_embedder():
-    """Load the MiniLM sentence embedder if available.
+def _probe_sentence_transformers() -> bool:
+    """Check if sentence_transformers can be imported without crashing.
+
+    Uses a subprocess so a SIGILL or other fatal signal does not kill
+    the main process. Returns False if the import fails for any reason.
 
     Returns:
-        SentenceTransformer model, or None if not installed.
+        True if sentence_transformers is safe to import, else False.
     """
+    import subprocess
+    import sys
+
+    result = subprocess.run(
+        [sys.executable, "-c", "import sentence_transformers"],
+        capture_output=True,
+        timeout=15,
+    )
+    return result.returncode == 0
+
+
+def _load_embedder():
+    """Load the MiniLM sentence embedder if available and safe.
+
+    Pre-checks via subprocess before importing so a SIGILL on incompatible
+    hardware does not crash the main process.
+
+    Returns:
+        SentenceTransformer model, or None if unavailable or unsafe.
+    """
+    if not _probe_sentence_transformers():
+        logger.warning(
+            "sentence-transformers is unavailable or crashes on this platform. "
+            "Using 16-dim fallback feature vector. "
+            "On CUDA machines install with: pip install sentence-transformers"
+        )
+        return None
+
     try:
         from sentence_transformers import SentenceTransformer
 
         logger.info("Loading MiniLM-L6-v2 sentence embedder.")
         return SentenceTransformer("all-MiniLM-L6-v2")
-    except ImportError:
-        logger.warning(
-            "sentence-transformers not installed. Using fallback feature vector. "
-            "Install with: pip install sentence-transformers"
-        )
+    except Exception as exc:
+        logger.warning("Failed to load sentence embedder: %s. Using fallback.", exc)
         return None
 
 
@@ -359,11 +387,9 @@ def _get_obs_dim() -> int:
     Returns:
         384 if sentence-transformers is available, else _FALLBACK_OBS_DIM.
     """
-    try:
-        import sentence_transformers  # noqa: F401
+    if _probe_sentence_transformers():
         return _EMBED_DIM
-    except ImportError:
-        return _FALLBACK_OBS_DIM
+    return _FALLBACK_OBS_DIM
 
 
 def _encode_text(text: str, embedder) -> np.ndarray:
