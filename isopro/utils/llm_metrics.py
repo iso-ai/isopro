@@ -46,13 +46,20 @@ def calculate_bleu(reference, candidate):
     Calculate the BLEU score for a given reference and candidate.
 
     Args:
-        reference (list): A list of reference sentences.
+        reference (str): The reference sentence.
         candidate (str): The candidate sentence to evaluate.
 
     Returns:
         float: The BLEU score.
     """
-    return sentence_bleu([reference.split()], candidate.split())
+    try:
+        from nltk.translate.bleu_score import SmoothingFunction
+        smoothing = SmoothingFunction().method1
+        score = sentence_bleu([reference.split()], candidate.split(), smoothing_function=smoothing)
+        return max(0.0, min(1.0, score))  # Clamp between 0 and 1
+    except Exception as e:
+        logger.warning(f"Error calculating BLEU score: {e}")
+        return 0.0
 
 def calculate_rouge(reference, candidate):
     """
@@ -65,13 +72,20 @@ def calculate_rouge(reference, candidate):
     Returns:
         dict: A dictionary containing ROUGE-1, ROUGE-2, and ROUGE-L scores.
     """
-    rouge = Rouge()
-    scores = rouge.get_scores(candidate, reference)
-    return {
-        'rouge-1': scores[0]['rouge-1']['f'],
-        'rouge-2': scores[0]['rouge-2']['f'],
-        'rouge-l': scores[0]['rouge-l']['f']
-    }
+    try:
+        if not reference.strip() or not candidate.strip():
+            return {'rouge-1': 0.0, 'rouge-2': 0.0, 'rouge-l': 0.0}
+        
+        rouge = Rouge()
+        scores = rouge.get_scores(candidate, reference)
+        return {
+            'rouge-1': max(0.0, min(1.0, scores[0]['rouge-1']['f'])),
+            'rouge-2': max(0.0, min(1.0, scores[0]['rouge-2']['f'])),
+            'rouge-l': max(0.0, min(1.0, scores[0]['rouge-l']['f']))
+        }
+    except Exception as e:
+        logger.warning(f"Error calculating ROUGE scores: {e}")
+        return {'rouge-1': 0.0, 'rouge-2': 0.0, 'rouge-l': 0.0}
 
 def calculate_perplexity(text, model_name=None):
     """
@@ -84,14 +98,23 @@ def calculate_perplexity(text, model_name=None):
     Returns:
         float: The perplexity score.
     """
-    model_name = model_name or DEFAULT_PERPLEXITY_MODEL
-    model, tokenizer = load_model(model_name, AutoModelForCausalLM)
-    
-    inputs = tokenizer(text, return_tensors='pt')
-    with torch.no_grad():
-        outputs = model(**inputs, labels=inputs.input_ids)
-    
-    return np.exp(outputs.loss.item())
+    try:
+        if not text.strip():
+            return float('inf')
+        
+        model_name = model_name or DEFAULT_PERPLEXITY_MODEL
+        model, tokenizer = load_model(model_name, AutoModelForCausalLM)
+        
+        inputs = tokenizer(text, return_tensors='pt', truncation=True, max_length=512)
+        with torch.no_grad():
+            outputs = model(**inputs, labels=inputs.input_ids)
+        
+        perplexity = np.exp(outputs.loss.item())
+        # Clamp to reasonable range
+        return max(1.0, min(10000.0, perplexity))
+    except Exception as e:
+        logger.warning(f"Error calculating perplexity: {e}")
+        return 100.0  # Default moderate perplexity value
 
 def calculate_coherence(text, model_name=None):
     """
@@ -104,19 +127,30 @@ def calculate_coherence(text, model_name=None):
     Returns:
         float: The coherence score.
     """
-    sentences = text.split('.')
-    if len(sentences) < 2:
-        return 1.0
-    
-    model_name = model_name or DEFAULT_COHERENCE_MODEL
-    model = SentenceTransformer(model_name)
-    embeddings = model.encode(sentences)
-    
-    coherence_scores = []
-    for i in range(len(embeddings) - 1):
-        coherence_scores.append(cosine_similarity([embeddings[i]], [embeddings[i+1]])[0][0])
-    
-    return np.mean(coherence_scores)
+    try:
+        if not text.strip():
+            return 0.0
+        
+        sentences = [s.strip() for s in text.split('.') if s.strip()]
+        if len(sentences) < 2:
+            return 1.0
+        
+        model_name = model_name or DEFAULT_COHERENCE_MODEL
+        model = SentenceTransformer(model_name)
+        embeddings = model.encode(sentences)
+        
+        coherence_scores = []
+        for i in range(len(embeddings) - 1):
+            similarity = cosine_similarity([embeddings[i]], [embeddings[i+1]])[0][0]
+            coherence_scores.append(max(0.0, min(1.0, similarity)))
+        
+        if not coherence_scores:
+            return 1.0
+        
+        return np.mean(coherence_scores)
+    except Exception as e:
+        logger.warning(f"Error calculating coherence: {e}")
+        return 0.5  # Default moderate coherence value
 
 def calculate_f1_precision_recall(true_labels, predicted_labels):
     """

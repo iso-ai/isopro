@@ -1,0 +1,28 @@
+{
+  "avg_input_similarity": 0.15693910419940948,
+  "avg_output_similarity": 0.3615446090698242,
+  "original_metrics": {
+    "bleu": 3.6163030638373153e-155,
+    "rouge-1": 0.21515151293388435,
+    "rouge-2": 0.07555555355229636,
+    "rouge-l": 0.15959595737832877,
+    "perplexity": 22.35510219195322,
+    "coherence": 0.16051055490970612
+  },
+  "perturbed_metrics": {
+    "bleu": 0.01684597064499781,
+    "rouge-1": 0.09165657635555853,
+    "rouge-2": 0.03864734263109992,
+    "rouge-l": 0.09165657635555853,
+    "perplexity": 28.976416515708124,
+    "coherence": 0.26677387952804565
+  },
+  "metric_changes": {
+    "bleu_change": 4.658340395597898e+152,
+    "rouge-1_change": -0.5739905562099188,
+    "rouge-2_change": -0.48849103984990516,
+    "rouge-l_change": -0.42569612751353814,
+    "perplexity_change": 0.2961880588556766,
+    "coherence_change": 0.6620332598686218
+  }
+}

@@ -56,11 +56,23 @@ def analyze_adversarial_results(results: List[Dict[str, Any]]) -> Dict[str, Any]
     original_metrics = evaluate_llm_metrics(original_inputs, original_outputs)
     perturbed_metrics = evaluate_llm_metrics(original_inputs, perturbed_outputs)
 
-    # Calculate relative changes in LLM metrics
-    metric_changes = {
-        f"{metric}_change": (perturbed_metrics[metric] - original_metrics[metric]) / original_metrics[metric]
-        for metric in original_metrics.keys()
-    }
+    # Calculate relative changes in LLM metrics (safe division)
+    metric_changes = {}
+    for metric in original_metrics.keys():
+        original_val = original_metrics[metric]
+        perturbed_val = perturbed_metrics[metric]
+        
+        if abs(original_val) < 1e-8:  # Avoid division by zero
+            if abs(perturbed_val) < 1e-8:
+                change = 0.0  # Both values are essentially zero
+            else:
+                change = 1.0 if perturbed_val > 0 else -1.0  # Large change
+        else:
+            change = (perturbed_val - original_val) / original_val
+        
+        # Clamp extreme values
+        change = max(-10.0, min(10.0, change))
+        metric_changes[f"{metric}_change"] = change
 
     analysis_results = {
         "avg_input_similarity": avg_input_similarity,

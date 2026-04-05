@@ -41,27 +41,284 @@ class WorkflowState:
     sequence_position: int = 0
 
 class UIElementDetector:
-    """Handles detection of UI elements in video frames."""
-    
-    def __init__(self, model_path: Optional[str] = None):
-        """Initialize the detector with optional custom model."""
+    """Detects UI elements in video frames using computer vision heuristics.
+
+    Strategy (no ML model required):
+      1. Convert to HSV and detect saturated colored regions — typical for
+         buttons, icons, and interactive widgets.
+      2. Find rectangular contours in the edge map that match button/panel
+         aspect ratios.
+      3. Detect text-like regions using morphological operations on the
+         grayscale frame.
+
+    Falls back to YOLO if a model_path to a trained YOLO weights file
+    is provided and ultralytics is installed.
+
+    Args:
+        model_path: Optional path to a YOLO .pt weights file.
+            If None or if ultralytics is not installed, CV heuristics are used.
+    """
+
+    # HSV saturation threshold — pixels above this are considered "colored"
+    # (buttons, icons) rather than background.
+    _SAT_THRESHOLD: int = 60
+    # Minimum contour area to consider as a UI element (pixels²).
+    _MIN_CONTOUR_AREA: int = 400
+    # Aspect ratio bounds for button-like rectangles [min, max].
+    _BUTTON_ASPECT_RANGE: tuple = (0.2, 8.0)
+
+    def __init__(self, model_path: Optional[str] = None) -> None:
         self.model_path = model_path
-        # Placeholder for actual model initialization
-        
+        self._yolo_model = self._load_yolo(model_path)
+
     def detect_elements(self, frame: np.ndarray) -> List[UIElement]:
-        """Detect UI elements in a single frame."""
-        # Placeholder implementation - replace with actual detection logic
+        """Detect UI elements in a single BGR frame.
+
+        Args:
+            frame: BGR numpy array from cv2.VideoCapture.read().
+
+        Returns:
+            List of UIElement instances with bounding boxes and types.
+        """
+        if self._yolo_model is not None:
+            return self._detect_yolo(frame)
+        return self._detect_cv(frame)
+
+    # ------------------------------------------------------------------
+    # CV heuristic detection
+    # ------------------------------------------------------------------
+
+    def _detect_cv(self, frame: np.ndarray) -> List[UIElement]:
+        """Detect UI elements using color segmentation and contour analysis.
+
+        Args:
+            frame: BGR numpy array.
+
+        Returns:
+            List of UIElement instances.
+        """
+        elements: List[UIElement] = []
         height, width = frame.shape[:2]
-        
-        # Example element for testing
-        element = UIElement(
-            id="test_element",
-            type="button",
-            bbox=[0, 0, width/4, height/4],
-            confidence=0.95
+
+        # --- Pass 1: colored rectangle detection (buttons, panels) ---
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        # Isolate high-saturation pixels — UI widgets are typically more
+        # saturated than neutral backgrounds.
+        sat_mask = cv2.inRange(hsv, (0, self._SAT_THRESHOLD, 50), (180, 255, 255))
+        sat_mask = cv2.morphologyEx(sat_mask, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8))
+        colored_contours, _ = cv2.findContours(
+            sat_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
         )
-        
-        return [element]
+        for i, contour in enumerate(colored_contours):
+            elem = self._contour_to_element(
+                contour, i, width, height, default_type="button"
+            )
+            if elem is not None:
+                elements.append(elem)
+
+        # --- Pass 2: edge-based rectangular region detection (panels, inputs) ---
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        edges = cv2.Canny(gray, threshold1=50, threshold2=150)
+        edges = cv2.dilate(edges, np.ones((2, 2), np.uint8), iterations=1)
+        edge_contours, _ = cv2.findContours(
+            edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+        )
+        offset = len(elements)
+        for i, contour in enumerate(edge_contours):
+            elem = self._contour_to_element(
+                contour, offset + i, width, height, default_type="panel"
+            )
+            if elem is not None and not _overlaps_any(elem, elements):
+                elements.append(elem)
+
+        # --- Pass 3: text region detection (labels, inputs) ---
+        text_elements = self._detect_text_regions(gray, width, height, len(elements))
+        elements.extend(text_elements)
+
+        return elements
+
+    def _contour_to_element(
+        self,
+        contour,
+        idx: int,
+        frame_width: int,
+        frame_height: int,
+        default_type: str,
+    ) -> Optional[UIElement]:
+        """Convert an OpenCV contour to a UIElement if it passes filters.
+
+        Args:
+            contour: OpenCV contour array.
+            idx: Index used to generate the element ID.
+            frame_width: Frame width in pixels.
+            frame_height: Frame height in pixels.
+            default_type: Element type label if no better guess can be made.
+
+        Returns:
+            UIElement or None if the contour fails area/aspect ratio filters.
+        """
+        area = cv2.contourArea(contour)
+        if area < self._MIN_CONTOUR_AREA:
+            return None
+
+        x, y, w, h = cv2.boundingRect(contour)
+        aspect = w / max(h, 1)
+        if not (self._BUTTON_ASPECT_RANGE[0] <= aspect <= self._BUTTON_ASPECT_RANGE[1]):
+            return None
+
+        # Skip elements that cover most of the frame — likely background.
+        if w * h > 0.6 * frame_width * frame_height:
+            return None
+
+        # Normalize bbox to [0, 1] range.
+        norm_bbox = [
+            x / frame_width,
+            y / frame_height,
+            (x + w) / frame_width,
+            (y + h) / frame_height,
+        ]
+
+        # Refine type guess based on aspect ratio.
+        if 2.0 < aspect <= 8.0:
+            elem_type = "text_input"
+        elif aspect <= 2.0 and h < 50:
+            elem_type = "button"
+        else:
+            elem_type = default_type
+
+        # Confidence heuristic: larger, more rectangular contours score higher.
+        rect_area = w * h
+        fill_ratio = area / max(rect_area, 1)
+        confidence = min(fill_ratio * 0.8 + min(area / 5000.0, 0.2), 0.95)
+
+        return UIElement(
+            id=f"elem_{idx}",
+            type=elem_type,
+            bbox=norm_bbox,
+            confidence=round(confidence, 3),
+        )
+
+    def _detect_text_regions(
+        self,
+        gray: np.ndarray,
+        frame_width: int,
+        frame_height: int,
+        id_offset: int,
+    ) -> List[UIElement]:
+        """Find text-like regions using morphological operations.
+
+        Dilates characters horizontally to merge them into word/line blocks,
+        then finds contours of those blocks.
+
+        Args:
+            gray: Grayscale frame.
+            frame_width: Frame width in pixels.
+            frame_height: Frame height in pixels.
+            id_offset: ID offset so IDs don't clash with other elements.
+
+        Returns:
+            List of UIElement instances typed as "text".
+        """
+        # Threshold to isolate dark text on light background.
+        _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+        # Horizontal dilation merges characters into words.
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (20, 3))
+        dilated = cv2.dilate(thresh, kernel, iterations=1)
+        contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        elements: List[UIElement] = []
+        for i, contour in enumerate(contours):
+            elem = self._contour_to_element(
+                contour, id_offset + i, frame_width, frame_height, default_type="text"
+            )
+            if elem is not None:
+                elem.type = "text"
+                elements.append(elem)
+        return elements
+
+    # ------------------------------------------------------------------
+    # YOLO detection (optional)
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _load_yolo(model_path: Optional[str]):
+        """Load YOLO model if path is given and ultralytics is installed.
+
+        Args:
+            model_path: Path to YOLO weights file (.pt).
+
+        Returns:
+            YOLO model or None.
+        """
+        if model_path is None:
+            return None
+        try:
+            from ultralytics import YOLO
+            return YOLO(model_path)
+        except ImportError:
+            logging.getLogger(__name__).warning(
+                "ultralytics not installed; falling back to CV heuristics."
+            )
+            return None
+
+    def _detect_yolo(self, frame: np.ndarray) -> List[UIElement]:
+        """Run YOLO detection on a frame.
+
+        Args:
+            frame: BGR numpy array.
+
+        Returns:
+            List of UIElement instances from YOLO predictions.
+        """
+        height, width = frame.shape[:2]
+        results = self._yolo_model(frame, verbose=False)
+        elements: List[UIElement] = []
+        for i, box in enumerate(results[0].boxes):
+            x1, y1, x2, y2 = box.xyxy[0].tolist()
+            conf = float(box.conf[0])
+            cls_id = int(box.cls[0])
+            cls_name = self._yolo_model.names.get(cls_id, "unknown")
+            elements.append(UIElement(
+                id=f"yolo_{i}",
+                type=cls_name,
+                bbox=[x1 / width, y1 / height, x2 / width, y2 / height],
+                confidence=round(conf, 3),
+            ))
+        return elements
+
+
+# ---------------------------------------------------------------------------
+# Module-level helpers for UIElementDetector
+# ---------------------------------------------------------------------------
+
+
+def _overlaps_any(candidate: UIElement, existing: List[UIElement], threshold: float = 0.5) -> bool:
+    """Check if a candidate element significantly overlaps any existing element.
+
+    Args:
+        candidate: The element to test.
+        existing: List of already-accepted elements.
+        threshold: IoU threshold above which the candidate is considered a duplicate.
+
+    Returns:
+        True if the candidate overlaps an existing element above the threshold.
+    """
+    cx0, cy0, cx1, cy1 = candidate.bbox
+    for elem in existing:
+        ex0, ey0, ex1, ey1 = elem.bbox
+        ix0, iy0 = max(cx0, ex0), max(cy0, ey0)
+        ix1, iy1 = min(cx1, ex1), min(cy1, ey1)
+        if ix1 <= ix0 or iy1 <= iy0:
+            continue
+        intersection = (ix1 - ix0) * (iy1 - iy0)
+        union = (
+            (cx1 - cx0) * (cy1 - cy0)
+            + (ex1 - ex0) * (ey1 - ey0)
+            - intersection
+        )
+        if union > 0 and intersection / union > threshold:
+            return True
+    return False
 
 class MotionDetector:
     """Detects cursor motion between frames."""

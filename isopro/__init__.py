@@ -18,7 +18,10 @@ from .agents.ai_agent import AI_Agent
 from .base.base_component import BaseComponent
 from .wrappers.simulation_wrapper import SimulationWrapper
 from .rl.rl_environment import BaseRLEnvironment
-from .rl.rl_agent import RLAgent
+try:
+    from .rl.rl_agent import RLAgent
+except Exception:  # noqa: BLE001
+    RLAgent = None  # type: ignore[assignment,misc]
 from .conversation_simulation import ConversationSimulator, ConversationEnvironment, ConversationAgent
 from .adversarial_simulation import AdversarialSimulator, AdversarialEnvironment, AdversarialAgent
 from .orchestration_simulation import LLaMAAgent, SubAgent, OrchestrationEnv, AI_AgentException, ComponentException, AI_Agent

@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="isopro",
-    version="0.1.6", 
+    version="0.1.7", 
     packages=find_packages(),
     install_requires=[
         "numpy>=1.21.0",
@@ -33,6 +33,11 @@ setup(
         "python-dotenv>=0.19.0",
         "pyyaml>=6.0.0",
         "rich>=13.0.0",        # Enhanced terminal output
+        # API dependencies
+        "flask>=2.0.0",        # API framework
+        "flask-cors>=3.0.10",  # CORS support
+        "gunicorn>=20.1.0",    # WSGI server
+        "werkzeug>=2.0.0",     # WSGI utilities
     ],
     extras_require={
         'dev': [
@@ -41,6 +46,12 @@ setup(
             "black>=22.0.0",
             "isort>=5.10.0",
             "flake8>=4.0.0",
+        ],
+        'api': [
+            "flask>=2.0.0",
+            "flask-cors>=3.0.10",
+            "gunicorn>=20.1.0",
+            "werkzeug>=2.0.0",
         ]
     },
     author="Jazmia Henry",

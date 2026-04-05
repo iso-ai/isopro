@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: isopro-simulation-api
+    env: python
+    buildCommand: pip install -e .
+    startCommand: python -m isopro.api_server
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PYTHONPATH
+        value: .
+      - key: FLASK_APP
+        value: isopro.api
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: 8080

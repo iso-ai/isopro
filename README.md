@@ -1,6 +1,6 @@
 # ISOPro: Pro Tools for Intelligent Simulation Orchestration for Large Language Models
 
-ISOPRO is a powerful and flexible Python package designed for creating, managing, and analyzing simulations involving Large Language Models (LLMs). It provides a comprehensive suite of tools for reinforcement learning, conversation simulations, adversarial testing, custom environment creation, and advanced orchestration of multi-agent systems.
+ISOPRO is a powerful and flexible Python package designed for creating, managing, and analyzing simulations involving Large Language Models (LLMs). It provides a comprehensive suite of tools for reinforcement learning, conversation simulations, adversarial testing, custom environment creation, and advanced orchestration of multi-agent systems. Version 1.7 patches dependencies to run isopro more smoothly. 
 
 ## Features
 
@@ -13,6 +13,7 @@ ISOPRO is a powerful and flexible Python package designed for creating, managing
 - **Utility Functions**: Analyze simulation results, calculate LLM metrics, and more
 - **Flexible Integration**: Works with popular LLM platforms like OpenAI's GPT models, Claude (Anthropic), and Hugging Face models
 - **Orchestration Simulation**: Manage and execute complex multi-agent simulations with different execution modes
+- **Core Simulation API**: RESTful API for accessing all simulation capabilities with standardized interfaces
 
 ## Installation
 
@@ -233,6 +234,90 @@ print(f"The best execution mode for this task was: {best_mode}")
 
 For more detailed information on each module and its usage, please refer to the [full documentation](https://isopro.readthedocs.io).
 
+## Core Simulation API
+
+ISOPro now provides a unified RESTful API for accessing all simulation capabilities:
+
+```bash
+# Install the API dependencies
+pip install "isopro[api]"
+
+# Run the API server
+python -m isopro.api_server
+```
+
+### API Endpoints
+
+All endpoints follow a standardized response format:
+```json
+{
+  "run_id": "unique-identifier",
+  "output": "simulation-specific-output",
+  "metadata": {
+    "timestamp": "ISO-format-timestamp",
+    "simulation_type": "type-of-simulation",
+    "other-metadata": "values"
+  }
+}
+```
+
+#### Base Route
+- **GET** `/healthcheck`: Check if the API is running
+- **POST** `/simulate`: Main endpoint with 'type' parameter to route to specific simulation
+
+#### Simulation Endpoints
+- **POST** `/simulate/reason`: Reasoning over prompt and context
+  ```json
+  {
+    "prompt": "What is the impact of AI on healthcare?",
+    "context": "Optional context for reasoning",
+    "model": "claude-3-sonnet-20240229"
+  }
+  ```
+
+- **POST** `/simulate/qa`: Question answering with persona
+  ```json
+  {
+    "question": "How do I reset my password?",
+    "persona_type": "upset",
+    "num_turns": 3,
+    "model": "claude-3-sonnet-20240229"
+  }
+  ```
+
+- **POST** `/simulate/adversarial`: Adversarial testing
+  ```json
+  {
+    "prompt": "Explain how batteries work",
+    "attack_type": "jailbreak",
+    "num_steps": 1,
+    "model": "claude-3-sonnet-20240229"
+  }
+  ```
+
+- **POST** `/simulate/orchestration`: Multi-agent orchestration
+  ```json
+  {
+    "input_data": "Analyze renewable energy adoption trends",
+    "mode": "agent",
+    "tools": []
+  }
+  ```
+
+### Deployment
+
+The API is ready for deployment on [Render](https://render.com) using the provided configuration:
+
+```yaml
+# render.yaml example
+services:
+  - type: web
+    name: isopro-simulation-api
+    env: python
+    buildCommand: pip install -e .
+    startCommand: python -m isopro.api_server
+```
+
 ## Examples
 
 The [isopro examples](https://github.com/iso-ai/isopro_examples) repository contains Jupyter notebooks with detailed examples:
@@ -243,6 +328,7 @@ The [isopro examples](https://github.com/iso-ai/isopro_examples) repository cont
 - `car_rl_example.ipynb`: Demonstrates car environment training scenarios
 - `run_cartpole_example.ipynb`: Illustrates the integration of LLMs with reinforcement learning
 - `orchestrator_example.ipynb`: Provides a tutorial on using the AI orchestration capabilities
+- `api_example.ipynb`: Shows how to use the Core Simulation API
 
 ## Contributing
 
