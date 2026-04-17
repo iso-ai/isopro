@@ -1,0 +1,548 @@
+{
+  "experiment": "ablation_study",
+  "timestamp": "2026-04-17T16:54:45.147633+00:00",
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "config": {
+    "iterations": 6,
+    "k_samples": 4,
+    "tasks_per_tier": 3,
+    "lora_rank": 16,
+    "lora_layers": 8,
+    "seeds": [
+      42,
+      123,
+      456
+    ]
+  },
+  "runs": [
+    {
+      "ablation": "Full ISOPro",
+      "seed": 42,
+      "baseline_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "final_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 1.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.6667,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "loss_curve": [
+        0.3991607589026292,
+        0.36928333038533173,
+        0.2686119513586164,
+        0.22985941868635915,
+        0.1782415169404774,
+        0.15867541986061076
+      ],
+      "hit_rate_curve": [
+        14.285714285714285,
+        17.857142857142858,
+        15.476190476190476,
+        26.190476190476193,
+        23.809523809523807,
+        23.809523809523807
+      ],
+      "buffer_sizes": [
+        12,
+        27,
+        40,
+        62,
+        82,
+        102
+      ],
+      "buffer_composition": {
+        "tier3_deadline_pressure": 28,
+        "tier0_warmup": 59,
+        "tier1_sequencing": 13,
+        "tier2_resource_alloc": 1,
+        "tier4_pairwise_sequencing_deadlines": 1
+      },
+      "transition_points": {
+        "tier3_deadline_pressure": 1,
+        "tier0_warmup": 1,
+        "tier1_sequencing": 3,
+        "tier2_resource_alloc": 4,
+        "tier4_pairwise_sequencing_deadlines": 6
+      },
+      "wall_clock_s": 5444.34
+    },
+    {
+      "ablation": "Full ISOPro",
+      "seed": 123,
+      "baseline_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "final_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.6667,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.3333,
+        "tier4_pairwise": 0.1667,
+        "tier5_full_composition": 0.0
+      },
+      "loss_curve": [
+        0.2946044519543648,
+        0.3420558348298073,
+        0.23425021307433352,
+        0.18904762101524017,
+        0.16251243845048086,
+        0.14152758600919144
+      ],
+      "hit_rate_curve": [
+        11.904761904761903,
+        11.904761904761903,
+        16.666666666666664,
+        20.238095238095237,
+        23.809523809523807,
+        25.0
+      ],
+      "buffer_sizes": [
+        10,
+        20,
+        34,
+        51,
+        71,
+        92
+      ],
+      "buffer_composition": {
+        "tier3_deadline_pressure": 24,
+        "tier0_warmup": 56,
+        "tier1_sequencing": 11,
+        "tier4_pairwise_sequencing_deadlines": 1
+      },
+      "transition_points": {
+        "tier3_deadline_pressure": 1,
+        "tier0_warmup": 1,
+        "tier1_sequencing": 3,
+        "tier4_pairwise_sequencing_deadlines": 4
+      },
+      "wall_clock_s": 5448.06
+    },
+    {
+      "ablation": "Full ISOPro",
+      "seed": 456,
+      "baseline_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "final_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.3333,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 1.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "loss_curve": [
+        0.3055171474814415,
+        0.2594297371804714,
+        0.2509400330243572,
+        0.19432761477974225,
+        0.16192871883091792,
+        0.1368937829739592
+      ],
+      "hit_rate_curve": [
+        11.904761904761903,
+        11.904761904761903,
+        13.095238095238097,
+        26.190476190476193,
+        21.428571428571427,
+        21.428571428571427
+      ],
+      "buffer_sizes": [
+        10,
+        20,
+        31,
+        53,
+        71,
+        89
+      ],
+      "buffer_composition": {
+        "tier3_deadline_pressure": 39,
+        "tier0_warmup": 43,
+        "tier1_sequencing": 7
+      },
+      "transition_points": {
+        "tier3_deadline_pressure": 1,
+        "tier0_warmup": 1,
+        "tier1_sequencing": 1
+      },
+      "wall_clock_s": 5463.95
+    },
+    {
+      "ablation": "No Chain-of-Thought",
+      "seed": 42,
+      "baseline_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "final_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.6667,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "loss_curve": [
+        0.4727137163281441,
+        0.3563508130609989,
+        0.26673242865273583,
+        0.2319704276081678,
+        0.1787819766229199,
+        0.15263418402642973
+      ],
+      "hit_rate_curve": [
+        16.666666666666664,
+        21.428571428571427,
+        23.809523809523807,
+        26.190476190476193,
+        22.61904761904762,
+        36.904761904761905
+      ],
+      "buffer_sizes": [
+        14,
+        32,
+        52,
+        74,
+        93,
+        124
+      ],
+      "buffer_composition": {
+        "tier4_pairwise_sequencing_deadlines": 7,
+        "tier3_deadline_pressure": 27,
+        "tier0_warmup": 66,
+        "tier1_sequencing": 19,
+        "tier2_resource_alloc": 2,
+        "tier4_pairwise_sequencing_resources": 1,
+        "tier4_pairwise_resources_deadlines": 2
+      },
+      "transition_points": {
+        "tier4_pairwise_sequencing_deadlines": 1,
+        "tier3_deadline_pressure": 1,
+        "tier0_warmup": 1,
+        "tier1_sequencing": 2,
+        "tier2_resource_alloc": 3,
+        "tier4_pairwise_sequencing_resources": 5,
+        "tier4_pairwise_resources_deadlines": 6
+      },
+      "wall_clock_s": 4778.53
+    },
+    {
+      "ablation": "No Chain-of-Thought",
+      "seed": 123,
+      "baseline_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "final_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.3333,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.6667,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "loss_curve": [
+        0.44375572353601456,
+        0.4020516375700633,
+        0.29302663783784266,
+        0.21164238433807325,
+        0.18427904770530837,
+        0.15778556700889804
+      ],
+      "hit_rate_curve": [
+        19.047619047619047,
+        20.238095238095237,
+        25.0,
+        28.57142857142857,
+        25.0,
+        23.809523809523807
+      ],
+      "buffer_sizes": [
+        16,
+        33,
+        54,
+        78,
+        99,
+        119
+      ],
+      "buffer_composition": {
+        "tier1_sequencing": 20,
+        "tier3_deadline_pressure": 28,
+        "tier0_warmup": 64,
+        "tier4_pairwise_sequencing_resources": 4,
+        "tier4_pairwise_resources_deadlines": 2,
+        "tier4_pairwise_sequencing_deadlines": 1
+      },
+      "transition_points": {
+        "tier1_sequencing": 1,
+        "tier3_deadline_pressure": 1,
+        "tier0_warmup": 1,
+        "tier4_pairwise_sequencing_resources": 3,
+        "tier4_pairwise_resources_deadlines": 5,
+        "tier4_pairwise_sequencing_deadlines": 6
+      },
+      "wall_clock_s": 4805.07
+    },
+    {
+      "ablation": "No Chain-of-Thought",
+      "seed": 456,
+      "baseline_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "final_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.6667,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.3333,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "loss_curve": [
+        0.48895570304658675,
+        0.3833505606109446,
+        0.31189798000382213,
+        0.23253762767865108,
+        0.18182108914706765,
+        0.15408832232639627
+      ],
+      "hit_rate_curve": [
+        10.714285714285714,
+        15.476190476190476,
+        22.61904761904762,
+        28.57142857142857,
+        20.238095238095237,
+        25.0
+      ],
+      "buffer_sizes": [
+        9,
+        22,
+        41,
+        65,
+        82,
+        103
+      ],
+      "buffer_composition": {
+        "tier1_sequencing": 18,
+        "tier0_warmup": 53,
+        "tier4_pairwise_sequencing_resources": 1,
+        "tier3_deadline_pressure": 20,
+        "tier2_resource_alloc": 8,
+        "tier4_pairwise_resources_deadlines": 2,
+        "tier4_pairwise_sequencing_deadlines": 1
+      },
+      "transition_points": {
+        "tier1_sequencing": 1,
+        "tier0_warmup": 1,
+        "tier4_pairwise_sequencing_resources": 2,
+        "tier3_deadline_pressure": 2,
+        "tier2_resource_alloc": 2,
+        "tier4_pairwise_resources_deadlines": 3,
+        "tier4_pairwise_sequencing_deadlines": 4
+      },
+      "wall_clock_s": 4779.46
+    },
+    {
+      "ablation": "No Buffer Accumulation",
+      "seed": 42,
+      "baseline_accs": {
+        "tier0_warmup": 0.6667,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "final_accs": {
+        "tier0_warmup": 0.6667,
+        "tier1_sequencing": 0.3333,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.6667,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "loss_curve": [
+        0.3997835527573313,
+        0.39868854069047505,
+        0.41284944986303646,
+        0.3126895059557522,
+        0.3244232162833214,
+        0.2700955644249916
+      ],
+      "hit_rate_curve": [
+        16.666666666666664,
+        21.428571428571427,
+        21.428571428571427,
+        20.238095238095237,
+        19.047619047619047,
+        14.285714285714285
+      ],
+      "buffer_sizes": [
+        14,
+        32,
+        50,
+        67,
+        83,
+        95
+      ],
+      "buffer_composition": {
+        "tier3_deadline_pressure": 25,
+        "tier0_warmup": 56,
+        "tier1_sequencing": 12,
+        "tier2_resource_alloc": 2
+      },
+      "transition_points": {
+        "tier3_deadline_pressure": 1,
+        "tier0_warmup": 1,
+        "tier1_sequencing": 2,
+        "tier2_resource_alloc": 2
+      },
+      "wall_clock_s": 5208.93
+    },
+    {
+      "ablation": "No Buffer Accumulation",
+      "seed": 123,
+      "baseline_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "final_accs": {
+        "tier0_warmup": 0.0,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.6667,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "loss_curve": [
+        0.3640724556012587,
+        0.4009356737136841,
+        0.3133169277147813,
+        0.28830883602301277,
+        0.2584043883464553,
+        0.22108200378715992
+      ],
+      "hit_rate_curve": [
+        13.095238095238097,
+        11.904761904761903,
+        13.095238095238097,
+        17.857142857142858,
+        26.190476190476193,
+        23.809523809523807
+      ],
+      "buffer_sizes": [
+        11,
+        21,
+        32,
+        47,
+        69,
+        89
+      ],
+      "buffer_composition": {
+        "tier1_sequencing": 12,
+        "tier0_warmup": 56,
+        "tier3_deadline_pressure": 20,
+        "tier4_pairwise_sequencing_deadlines": 1
+      },
+      "transition_points": {
+        "tier1_sequencing": 1,
+        "tier0_warmup": 1,
+        "tier3_deadline_pressure": 2,
+        "tier4_pairwise_sequencing_deadlines": 6
+      },
+      "wall_clock_s": 5178.79
+    },
+    {
+      "ablation": "No Buffer Accumulation",
+      "seed": 456,
+      "baseline_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "final_accs": {
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.6667,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 1.0,
+        "tier4_pairwise": 0.0,
+        "tier5_full_composition": 0.0
+      },
+      "loss_curve": [
+        0.3600044958293438,
+        0.3104600099225839,
+        0.27117309080702917,
+        0.24577801731916574,
+        0.17221496097351374,
+        0.17702547986717784
+      ],
+      "hit_rate_curve": [
+        9.523809523809524,
+        14.285714285714285,
+        16.666666666666664,
+        15.476190476190476,
+        22.61904761904762,
+        20.238095238095237
+      ],
+      "buffer_sizes": [
+        8,
+        20,
+        34,
+        47,
+        66,
+        83
+      ],
+      "buffer_composition": {
+        "tier0_warmup": 56,
+        "tier1_sequencing": 8,
+        "tier3_deadline_pressure": 17,
+        "tier2_resource_alloc": 2
+      },
+      "transition_points": {
+        "tier0_warmup": 1,
+        "tier1_sequencing": 1,
+        "tier3_deadline_pressure": 2,
+        "tier2_resource_alloc": 6
+      },
+      "wall_clock_s": 5242.61
+    }
+  ]
+}
