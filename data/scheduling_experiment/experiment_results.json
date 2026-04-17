@@ -1,0 +1,51 @@
+{
+  "experiment": {
+    "timestamp": "2026-04-15T20:08:47.357621+00:00",
+    "ollama_model": "llama3.1:8b",
+    "hf_model": "meta-llama/Llama-3.1-8B-Instruct",
+    "seed": 42,
+    "iterations": 6,
+    "k_samples": 4,
+    "tasks_per_tier": 5,
+    "eval_problems_per_tier": 5
+  },
+  "multiturn": {
+    "tier0_warmup": {
+      "first_attempt_acc": 1.0,
+      "trajectory_acc": 1.0,
+      "recovery_rate": 0.0,
+      "mean_attempts": 1.0
+    },
+    "tier1_sequencing": {
+      "first_attempt_acc": 0.6,
+      "trajectory_acc": 0.8,
+      "recovery_rate": 0.2,
+      "mean_attempts": 1.6
+    },
+    "tier2_resource_alloc": {
+      "first_attempt_acc": 0.0,
+      "trajectory_acc": 0.0,
+      "recovery_rate": 0.0,
+      "mean_attempts": 3.0
+    },
+    "tier3_deadline_pressure": {
+      "first_attempt_acc": 0.2,
+      "trajectory_acc": 0.2,
+      "recovery_rate": 0.0,
+      "mean_attempts": 2.6
+    },
+    "tier4_pairwise": {
+      "first_attempt_acc": 0.0,
+      "trajectory_acc": 0.0,
+      "recovery_rate": 0.0,
+      "mean_attempts": 3.0
+    },
+    "tier5_full_composition": {
+      "first_attempt_acc": 0.0,
+      "trajectory_acc": 0.0,
+      "recovery_rate": 0.0,
+      "mean_attempts": 3.0
+    }
+  },
+  "total_wall_clock_s": 2220.9
+}

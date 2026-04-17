@@ -1,0 +1,142 @@
+{
+  "experiment": {
+    "timestamp": "2026-04-16T00:25:19.381201+00:00",
+    "ollama_model": "qwen2.5:3b",
+    "hf_model": "Qwen/Qwen2.5-3B-Instruct",
+    "seed": 42,
+    "iterations": 6,
+    "k_samples": 4,
+    "tasks_per_tier": 3,
+    "eval_problems_per_tier": 5
+  },
+  "isopro_loop": {
+    "history": [
+      {
+        "iteration": 1,
+        "tier_accuracies": {
+          "tier4_pairwise": 0.0,
+          "tier1_sequencing": 0.0,
+          "tier3_deadline_pressure": 0.0,
+          "tier2_resource_alloc": 0.0,
+          "tier0_warmup": 0.6667,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 8
+        },
+        "n_rollouts": 84,
+        "n_correct": 8,
+        "train_loss": 0.7549237608909607,
+        "wall_clock_s": 447.81,
+        "peak_memory_mb": 4844.5
+      },
+      {
+        "iteration": 2,
+        "tier_accuracies": {
+          "tier4_pairwise": 0.0,
+          "tier2_resource_alloc": 0.0,
+          "tier1_sequencing": 0.0,
+          "tier3_deadline_pressure": 0.0833,
+          "tier0_warmup": 0.4167,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 13,
+          "tier3_deadline_pressure": 1
+        },
+        "n_rollouts": 84,
+        "n_correct": 6,
+        "train_loss": 0.6865176899092538,
+        "wall_clock_s": 434.61,
+        "peak_memory_mb": 4844.5
+      },
+      {
+        "iteration": 3,
+        "tier_accuracies": {
+          "tier0_warmup": 0.75,
+          "tier3_deadline_pressure": 0.0,
+          "tier2_resource_alloc": 0.0,
+          "tier4_pairwise": 0.0,
+          "tier1_sequencing": 0.0,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 22,
+          "tier3_deadline_pressure": 1
+        },
+        "n_rollouts": 84,
+        "n_correct": 9,
+        "train_loss": 0.6620132997632027,
+        "wall_clock_s": 461.71,
+        "peak_memory_mb": 4844.5
+      },
+      {
+        "iteration": 4,
+        "tier_accuracies": {
+          "tier0_warmup": 0.75,
+          "tier4_pairwise": 0.0278,
+          "tier2_resource_alloc": 0.0,
+          "tier3_deadline_pressure": 0.0,
+          "tier1_sequencing": 0.0833,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 31,
+          "tier3_deadline_pressure": 1,
+          "tier4_pairwise": 1,
+          "tier1_sequencing": 1
+        },
+        "n_rollouts": 84,
+        "n_correct": 11,
+        "train_loss": 0.6539574090172263,
+        "wall_clock_s": 601.73,
+        "peak_memory_mb": 4844.5
+      },
+      {
+        "iteration": 5,
+        "tier_accuracies": {
+          "tier4_pairwise": 0.0,
+          "tier0_warmup": 0.5,
+          "tier3_deadline_pressure": 0.0,
+          "tier1_sequencing": 0.0833,
+          "tier2_resource_alloc": 0.0,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 37,
+          "tier3_deadline_pressure": 1,
+          "tier4_pairwise": 1,
+          "tier1_sequencing": 2
+        },
+        "n_rollouts": 84,
+        "n_correct": 7,
+        "train_loss": 0.6283623973528544,
+        "wall_clock_s": 653.43,
+        "peak_memory_mb": 4844.5
+      },
+      {
+        "iteration": 6,
+        "tier_accuracies": {
+          "tier0_warmup": 1.0,
+          "tier1_sequencing": 0.0,
+          "tier2_resource_alloc": 0.0,
+          "tier3_deadline_pressure": 0.0,
+          "tier4_pairwise": 0.0,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 44,
+          "tier3_deadline_pressure": 1,
+          "tier4_pairwise": 1,
+          "tier1_sequencing": 4
+        },
+        "n_rollouts": 84,
+        "n_correct": 9,
+        "train_loss": 0.6052136552333832,
+        "wall_clock_s": 836.88,
+        "peak_memory_mb": 4844.5
+      }
+    ]
+  },
+  "total_wall_clock_s": 3670.76
+}

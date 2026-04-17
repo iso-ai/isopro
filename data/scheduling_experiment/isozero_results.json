@@ -1,0 +1,47 @@
+{
+  "experiment": "isozero_simulation",
+  "timestamp": "2026-04-15T21:49:26.718186+00:00",
+  "model": "llama3.1:8b",
+  "max_steps": 3,
+  "seed": 42,
+  "wall_clock_s": 742.34,
+  "tier_results": {
+    "tier0_warmup": {
+      "accuracy": 1.0,
+      "n": 5,
+      "correct": 5,
+      "parse_fails": 0
+    },
+    "tier1_sequencing": {
+      "accuracy": 0.6,
+      "n": 5,
+      "correct": 3,
+      "parse_fails": 0
+    },
+    "tier2_resource_alloc": {
+      "accuracy": 0.0,
+      "n": 5,
+      "correct": 0,
+      "parse_fails": 1
+    },
+    "tier3_deadline_pressure": {
+      "accuracy": 0.4,
+      "n": 5,
+      "correct": 2,
+      "parse_fails": 0
+    },
+    "tier4_pairwise": {
+      "accuracy": 0.0,
+      "n": 9,
+      "correct": 0,
+      "parse_fails": 0
+    },
+    "tier5_full_composition": {
+      "accuracy": 0.0,
+      "n": 5,
+      "correct": 0,
+      "parse_fails": 0
+    }
+  },
+  "mean_accuracy": 0.3333
+}
