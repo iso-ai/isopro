@@ -103,6 +103,20 @@ export ANTHROPIC_API_KEY=your_api_key_here
 
 ---
 
+## Quickstart (no GPU, no model download)
+
+Three runnable examples that demonstrate ISOPro without a model in the loop:
+
+```bash
+python examples/quickstart_gce.py           # see the verifier reject reward hacking in 5 seconds
+python examples/custom_verifier.py          # plug your own domain into the loop in <100 lines
+python examples/watch_curriculum_emerge.py  # visualize the implicit curriculum from a saved log
+```
+
+The `quickstart_gce.py` script generates a real OR-Tools-solved scheduling problem, then runs three responses (oracle, constraint-violating, plausible hallucination) through the deterministic verifier so you can see — concretely — what "the verifier is the reward signal" means. `custom_verifier.py` shows the full pattern for extending ISOPro to any domain you can verify with a Python function. `watch_curriculum_emerge.py` reads a saved training log and renders the buffer composition over iterations as ASCII bars, reproducing Figure 3 from the paper in your terminal.
+
+---
+
 ## Reproducing the Paper
 
 All experiments run on an Apple M1 with 32GB unified memory. Full pipeline completes in ~90 minutes.
