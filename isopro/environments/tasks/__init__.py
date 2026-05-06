@@ -1,36 +1,67 @@
-"""Task generators for ISOPro task-based environments."""
+"""Task generators for ISOPro task-based environments.
+
+Only modules shipped in the public release are re-exported here. Additional
+task families (instruction, tool, reasoning, code, long-context, factual)
+live on internal branches and are not part of this release.
+"""
 
 from .base_task import DifficultyLevel, Task
-from .instruction_tasks import generate_instruction_task, score_instruction_task
-from .tool_tasks import generate_tool_task, score_tool_task, execute_tool
-from .reasoning_tasks import generate_reasoning_task, score_reasoning_task
-from .code_tasks import generate_code_task, score_code_task
-from .long_context_tasks import generate_long_context_task, score_long_context_task
-from .factual_tasks import (
-    generate_factual_task,
-    score_factual_task,
-    SUPPORTED,
-    CONTRADICTED,
-    NOT_MENTIONED,
+from .mbpp_tasks import (
+    MBPPTier,
+    MBPPProblem,
+    build_mbpp_splits,
+    generate_mbpp_task,
+    load_mbpp_problems,
+    render_mbpp_prompt,
+)
+from .mbpp_verifier import (
+    CodeVerificationResult,
+    extract_code,
+    score_mbpp_task,
+    verify_code,
+)
+from .scheduling_tasks import (
+    SchedulingTier,
+    build_eval_set,
+    build_full_task_bank,
+    build_tier_task_bank,
+    generate_scheduling_problem,
+    generate_scheduling_task,
+    render_problem_prompt,
+    solve_scheduling_problem,
+)
+from .scheduling_verifier import (
+    VerificationResult,
+    parse_schedule,
+    score_scheduling_task,
+    verify_schedule,
 )
 
 __all__ = [
     "DifficultyLevel",
     "Task",
-    "generate_instruction_task",
-    "score_instruction_task",
-    "generate_tool_task",
-    "score_tool_task",
-    "execute_tool",
-    "generate_reasoning_task",
-    "score_reasoning_task",
-    "generate_code_task",
-    "score_code_task",
-    "generate_long_context_task",
-    "score_long_context_task",
-    "generate_factual_task",
-    "score_factual_task",
-    "SUPPORTED",
-    "CONTRADICTED",
-    "NOT_MENTIONED",
+    # MBPP
+    "MBPPTier",
+    "MBPPProblem",
+    "build_mbpp_splits",
+    "generate_mbpp_task",
+    "load_mbpp_problems",
+    "render_mbpp_prompt",
+    "CodeVerificationResult",
+    "extract_code",
+    "score_mbpp_task",
+    "verify_code",
+    # Scheduling
+    "SchedulingTier",
+    "build_eval_set",
+    "build_full_task_bank",
+    "build_tier_task_bank",
+    "generate_scheduling_problem",
+    "generate_scheduling_task",
+    "render_problem_prompt",
+    "solve_scheduling_problem",
+    "VerificationResult",
+    "parse_schedule",
+    "score_scheduling_task",
+    "verify_schedule",
 ]
