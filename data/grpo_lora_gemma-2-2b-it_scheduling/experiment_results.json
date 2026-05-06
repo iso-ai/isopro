@@ -1,0 +1,137 @@
+{
+  "experiment": {
+    "method": "grpo_lora",
+    "model_id": "unsloth/gemma-2-2b-it",
+    "domain": "scheduling",
+    "seed": 42,
+    "n_iterations": 6,
+    "steps_per_iteration": 14,
+    "group_size": 4,
+    "learning_rate": 5e-06,
+    "lora_rank": 16,
+    "hardware": "modal_a10g"
+  },
+  "isopro_loop": {
+    "history": [
+      {
+        "iteration": 1,
+        "tier_accuracies": {
+          "tier0_warmup": 1.0,
+          "tier1_sequencing": 0.2,
+          "tier2_resource_alloc": 0.0,
+          "tier3_deadline_pressure": 0.0,
+          "tier4_pairwise": 0.0,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 4
+        },
+        "n_rollouts": 56,
+        "n_correct": 4,
+        "train_loss": 0.0,
+        "wall_clock_s": 405.81,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 2,
+        "tier_accuracies": {
+          "tier0_warmup": 1.0,
+          "tier1_sequencing": 0.2,
+          "tier2_resource_alloc": 0.0,
+          "tier3_deadline_pressure": 0.0,
+          "tier4_pairwise": 0.0,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 11
+        },
+        "n_rollouts": 112,
+        "n_correct": 11,
+        "train_loss": 0.0,
+        "wall_clock_s": 500.96,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 3,
+        "tier_accuracies": {
+          "tier0_warmup": 1.0,
+          "tier1_sequencing": 0.0,
+          "tier2_resource_alloc": 0.0,
+          "tier3_deadline_pressure": 0.0,
+          "tier4_pairwise": 0.0,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 11,
+          "tier4_pairwise": 1
+        },
+        "n_rollouts": 168,
+        "n_correct": 12,
+        "train_loss": 0.0,
+        "wall_clock_s": 603.99,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 4,
+        "tier_accuracies": {
+          "tier0_warmup": 0.8,
+          "tier1_sequencing": 0.0,
+          "tier2_resource_alloc": 0.0,
+          "tier3_deadline_pressure": 0.0,
+          "tier4_pairwise": 0.0,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 18,
+          "tier4_pairwise": 1
+        },
+        "n_rollouts": 224,
+        "n_correct": 19,
+        "train_loss": 0.0,
+        "wall_clock_s": 700.53,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 5,
+        "tier_accuracies": {
+          "tier0_warmup": 0.8,
+          "tier1_sequencing": 0.0,
+          "tier2_resource_alloc": 0.0,
+          "tier3_deadline_pressure": 0.0,
+          "tier4_pairwise": 0.0,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 22,
+          "tier4_pairwise": 1
+        },
+        "n_rollouts": 280,
+        "n_correct": 23,
+        "train_loss": -0.0654,
+        "wall_clock_s": 797.19,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 6,
+        "tier_accuracies": {
+          "tier0_warmup": 1.0,
+          "tier1_sequencing": 0.0,
+          "tier2_resource_alloc": 0.0,
+          "tier3_deadline_pressure": 0.0,
+          "tier4_pairwise": 0.0,
+          "tier5_full_composition": 0.0
+        },
+        "buffer_composition": {
+          "tier0_warmup": 24,
+          "tier4_pairwise": 2
+        },
+        "n_rollouts": 336,
+        "n_correct": 26,
+        "train_loss": 0.0,
+        "wall_clock_s": 895.84,
+        "peak_memory_mb": 45537.7
+      }
+    ]
+  },
+  "total_wall_clock_s": 903.4
+}

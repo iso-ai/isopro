@@ -1,0 +1,147 @@
+{
+  "experiment": "isopro_mlx",
+  "timestamp": "2026-05-06T14:42:42.020253+00:00",
+  "model": "mlx-community/gemma-2-2b-it-4bit",
+  "config": {
+    "iterations": 6,
+    "k_samples": 4,
+    "tasks_per_tier": 3,
+    "lora_rank": 16,
+    "lora_layers": 8,
+    "lr": 0.0002,
+    "seed": 42
+  },
+  "baseline": {
+    "tier0_warmup": 0.0,
+    "tier1_sequencing": 0.0,
+    "tier2_resource_alloc": 0.0,
+    "tier3_deadline_pressure": 0.0,
+    "tier4_pairwise": 0.0,
+    "tier5_full_composition": 0.0
+  },
+  "final": {
+    "tier0_warmup": 0.6667,
+    "tier1_sequencing": 0.0,
+    "tier2_resource_alloc": 0.0,
+    "tier3_deadline_pressure": 0.6667,
+    "tier4_pairwise": 0.0,
+    "tier5_full_composition": 0.0
+  },
+  "history": [
+    {
+      "iteration": 1,
+      "tier_accuracies": {
+        "tier4_pairwise": 0.0,
+        "tier1_sequencing": 0.1667,
+        "tier3_deadline_pressure": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier0_warmup": 0.3333
+      },
+      "buffer_composition": {
+        "tier1_sequencing": 2,
+        "tier0_warmup": 4
+      },
+      "n_rollouts": 84,
+      "n_correct": 6,
+      "train_loss": 0.6509220749139786,
+      "wall_clock_s": 427.42
+    },
+    {
+      "iteration": 2,
+      "tier_accuracies": {
+        "tier4_pairwise": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier1_sequencing": 0.0,
+        "tier3_deadline_pressure": 0.0833,
+        "tier0_warmup": 0.5
+      },
+      "buffer_composition": {
+        "tier1_sequencing": 2,
+        "tier0_warmup": 10,
+        "tier3_deadline_pressure": 1
+      },
+      "n_rollouts": 84,
+      "n_correct": 7,
+      "train_loss": 0.528660612180829,
+      "wall_clock_s": 400.35
+    },
+    {
+      "iteration": 3,
+      "tier_accuracies": {
+        "tier0_warmup": 0.75,
+        "tier3_deadline_pressure": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier4_pairwise": 0.0,
+        "tier1_sequencing": 0.3333
+      },
+      "buffer_composition": {
+        "tier1_sequencing": 6,
+        "tier0_warmup": 19,
+        "tier3_deadline_pressure": 1
+      },
+      "n_rollouts": 84,
+      "n_correct": 13,
+      "train_loss": 0.4524607482765402,
+      "wall_clock_s": 441.04
+    },
+    {
+      "iteration": 4,
+      "tier_accuracies": {
+        "tier0_warmup": 0.75,
+        "tier4_pairwise": 0.0,
+        "tier2_resource_alloc": 0.0,
+        "tier3_deadline_pressure": 0.0,
+        "tier1_sequencing": 0.25
+      },
+      "buffer_composition": {
+        "tier1_sequencing": 9,
+        "tier0_warmup": 28,
+        "tier3_deadline_pressure": 1
+      },
+      "n_rollouts": 84,
+      "n_correct": 12,
+      "train_loss": 0.32025958728045223,
+      "wall_clock_s": 484.76
+    },
+    {
+      "iteration": 5,
+      "tier_accuracies": {
+        "tier4_pairwise": 0.0,
+        "tier0_warmup": 0.9167,
+        "tier3_deadline_pressure": 0.0833,
+        "tier1_sequencing": 0.0833,
+        "tier2_resource_alloc": 0.0
+      },
+      "buffer_composition": {
+        "tier1_sequencing": 10,
+        "tier0_warmup": 39,
+        "tier3_deadline_pressure": 2
+      },
+      "n_rollouts": 84,
+      "n_correct": 13,
+      "train_loss": 0.2568720703801283,
+      "wall_clock_s": 495.57
+    },
+    {
+      "iteration": 6,
+      "tier_accuracies": {
+        "tier4_pairwise": 0.0556,
+        "tier0_warmup": 1.0,
+        "tier1_sequencing": 0.75,
+        "tier3_deadline_pressure": 0.0833,
+        "tier2_resource_alloc": 0.0
+      },
+      "buffer_composition": {
+        "tier1_sequencing": 19,
+        "tier0_warmup": 51,
+        "tier3_deadline_pressure": 3,
+        "tier4_pairwise": 2
+      },
+      "n_rollouts": 84,
+      "n_correct": 24,
+      "train_loss": 0.22793010900025829,
+      "wall_clock_s": 512.07
+    }
+  ],
+  "total_wall_clock_s": 2877.84
+}

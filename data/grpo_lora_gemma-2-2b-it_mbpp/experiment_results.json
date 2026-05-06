@@ -1,0 +1,142 @@
+{
+  "experiment": {
+    "method": "grpo_lora",
+    "model_id": "unsloth/gemma-2-2b-it",
+    "domain": "mbpp",
+    "seed": 42,
+    "n_iterations": 6,
+    "steps_per_iteration": 14,
+    "group_size": 4,
+    "learning_rate": 5e-06,
+    "lora_rank": 16,
+    "hardware": "modal_a10g"
+  },
+  "isopro_loop": {
+    "history": [
+      {
+        "iteration": 1,
+        "tier_accuracies": {
+          "tier0_warmup": 0.4,
+          "tier1_short": 0.4,
+          "tier2_medium": 0.6,
+          "tier3_long": 0.2,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 16,
+          "tier0_warmup": 11
+        },
+        "n_rollouts": 56,
+        "n_correct": 27,
+        "train_loss": -0.125,
+        "wall_clock_s": 273.71,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 2,
+        "tier_accuracies": {
+          "tier0_warmup": 0.4,
+          "tier1_short": 0.4,
+          "tier2_medium": 0.6,
+          "tier3_long": 0.2,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 24,
+          "tier0_warmup": 19,
+          "tier1_short": 4
+        },
+        "n_rollouts": 112,
+        "n_correct": 47,
+        "train_loss": 0.0135,
+        "wall_clock_s": 303.36,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 3,
+        "tier_accuracies": {
+          "tier0_warmup": 0.4,
+          "tier1_short": 0.4,
+          "tier2_medium": 0.6,
+          "tier3_long": 0.2,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 32,
+          "tier0_warmup": 26,
+          "tier1_short": 4,
+          "tier3_long": 1
+        },
+        "n_rollouts": 168,
+        "n_correct": 63,
+        "train_loss": 0.0266,
+        "wall_clock_s": 381.7,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 4,
+        "tier_accuracies": {
+          "tier0_warmup": 0.4,
+          "tier1_short": 0.4,
+          "tier2_medium": 0.8,
+          "tier3_long": 0.2,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 41,
+          "tier0_warmup": 32,
+          "tier1_short": 12,
+          "tier3_long": 1
+        },
+        "n_rollouts": 224,
+        "n_correct": 86,
+        "train_loss": 0.0,
+        "wall_clock_s": 412.67,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 5,
+        "tier_accuracies": {
+          "tier0_warmup": 0.4,
+          "tier1_short": 0.4,
+          "tier2_medium": 0.4,
+          "tier3_long": 0.2,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 46,
+          "tier0_warmup": 40,
+          "tier1_short": 22,
+          "tier3_long": 1
+        },
+        "n_rollouts": 280,
+        "n_correct": 109,
+        "train_loss": 0.1021,
+        "wall_clock_s": 438.82,
+        "peak_memory_mb": 45537.7
+      },
+      {
+        "iteration": 6,
+        "tier_accuracies": {
+          "tier0_warmup": 0.4,
+          "tier1_short": 0.4,
+          "tier2_medium": 0.6,
+          "tier3_long": 0.2,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 57,
+          "tier0_warmup": 48,
+          "tier1_short": 26,
+          "tier3_long": 9
+        },
+        "n_rollouts": 336,
+        "n_correct": 140,
+        "train_loss": 0.0,
+        "wall_clock_s": 461.9,
+        "peak_memory_mb": 45537.7
+      }
+    ]
+  },
+  "total_wall_clock_s": 465.19
+}

@@ -1,0 +1,144 @@
+{
+  "experiment": {
+    "method": "grpo_lora",
+    "model_id": "unsloth/Qwen2.5-3B-Instruct",
+    "domain": "mbpp",
+    "seed": 42,
+    "n_iterations": 6,
+    "steps_per_iteration": 14,
+    "group_size": 4,
+    "learning_rate": 5e-06,
+    "lora_rank": 16,
+    "hardware": "modal_a10g"
+  },
+  "isopro_loop": {
+    "history": [
+      {
+        "iteration": 1,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.6,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.2
+        },
+        "buffer_composition": {
+          "tier2_medium": 12,
+          "tier0_warmup": 19,
+          "tier1_short": 4
+        },
+        "n_rollouts": 56,
+        "n_correct": 35,
+        "train_loss": 0.0,
+        "wall_clock_s": 300.1,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 2,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.6,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 20,
+          "tier0_warmup": 34,
+          "tier1_short": 7,
+          "tier3_long": 4
+        },
+        "n_rollouts": 112,
+        "n_correct": 65,
+        "train_loss": 0.0437,
+        "wall_clock_s": 361.41,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 3,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.4,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.2
+        },
+        "buffer_composition": {
+          "tier2_medium": 40,
+          "tier0_warmup": 46,
+          "tier1_short": 7,
+          "tier3_long": 5
+        },
+        "n_rollouts": 168,
+        "n_correct": 98,
+        "train_loss": 0.0,
+        "wall_clock_s": 427.08,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 4,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.4,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 48,
+          "tier0_warmup": 63,
+          "tier1_short": 14,
+          "tier3_long": 9
+        },
+        "n_rollouts": 224,
+        "n_correct": 134,
+        "train_loss": 0.0,
+        "wall_clock_s": 543.96,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 5,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.6,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 63,
+          "tier0_warmup": 68,
+          "tier1_short": 26,
+          "tier3_long": 9
+        },
+        "n_rollouts": 280,
+        "n_correct": 166,
+        "train_loss": 0.0,
+        "wall_clock_s": 608.87,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 6,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.4,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.0
+        },
+        "buffer_composition": {
+          "tier2_medium": 76,
+          "tier0_warmup": 80,
+          "tier1_short": 34,
+          "tier3_long": 17
+        },
+        "n_rollouts": 336,
+        "n_correct": 207,
+        "train_loss": 0.0,
+        "wall_clock_s": 666.79,
+        "peak_memory_mb": 46755.5
+      }
+    ]
+  },
+  "total_wall_clock_s": 690.96
+}

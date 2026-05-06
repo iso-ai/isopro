@@ -1,0 +1,159 @@
+{
+  "experiment": {
+    "method": "isopro_rejection_sampling",
+    "model_id": "unsloth/Qwen2.5-3B-Instruct",
+    "domain": "mbpp",
+    "seed": 42,
+    "n_iterations": 6,
+    "k_samples": 4,
+    "tasks_per_tier": 4,
+    "sft_lr": 0.0002,
+    "lora_rank": 16,
+    "hardware": "modal_a100_80gb"
+  },
+  "isopro_loop": {
+    "history": [
+      {
+        "iteration": 1,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.8,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.2
+        },
+        "buffer_composition": {
+          "tier0_warmup": 12,
+          "tier1_short": 8,
+          "tier2_medium": 11,
+          "tier3_long": 3
+        },
+        "n_rollouts": 64,
+        "n_correct": 34,
+        "train_loss": 0.08419841034885715,
+        "wall_clock_s": 48.15,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 2,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.6,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.6
+        },
+        "buffer_composition": {
+          "tier0_warmup": 24,
+          "tier1_short": 19,
+          "tier2_medium": 23,
+          "tier3_long": 14
+        },
+        "n_rollouts": 64,
+        "n_correct": 46,
+        "train_loss": 0.09275369388051331,
+        "wall_clock_s": 80.64,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 3,
+        "tier_accuracies": {
+          "tier0_warmup": 0.8,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.4,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.4
+        },
+        "buffer_composition": {
+          "tier0_warmup": 39,
+          "tier1_short": 31,
+          "tier2_medium": 35,
+          "tier3_long": 19
+        },
+        "n_rollouts": 64,
+        "n_correct": 44,
+        "train_loss": 0.07380689561907802,
+        "wall_clock_s": 125.44,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 4,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.2,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.2
+        },
+        "buffer_composition": {
+          "tier0_warmup": 51,
+          "tier1_short": 43,
+          "tier2_medium": 35,
+          "tier3_long": 27
+        },
+        "n_rollouts": 64,
+        "n_correct": 32,
+        "train_loss": 0.06838165651051661,
+        "wall_clock_s": 172.5,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 5,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.6,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.4
+        },
+        "buffer_composition": {
+          "tier0_warmup": 61,
+          "tier1_short": 56,
+          "tier2_medium": 41,
+          "tier3_long": 41
+        },
+        "n_rollouts": 64,
+        "n_correct": 43,
+        "train_loss": 0.06314908774220385,
+        "wall_clock_s": 236.87,
+        "peak_memory_mb": 46755.5
+      },
+      {
+        "iteration": 6,
+        "tier_accuracies": {
+          "tier0_warmup": 0.6,
+          "tier1_short": 0.8,
+          "tier2_medium": 0.4,
+          "tier3_long": 0.4,
+          "tier4_held_out": 0.4
+        },
+        "buffer_composition": {
+          "tier0_warmup": 71,
+          "tier1_short": 69,
+          "tier2_medium": 48,
+          "tier3_long": 44
+        },
+        "n_rollouts": 64,
+        "n_correct": 33,
+        "train_loss": 0.05884981620755721,
+        "wall_clock_s": 300.2,
+        "peak_memory_mb": 46755.5
+      }
+    ]
+  },
+  "total_wall_clock_s": 304.03,
+  "baseline": {
+    "tier0_warmup": 0.6,
+    "tier1_short": 1.0,
+    "tier2_medium": 0.6,
+    "tier3_long": 0.4,
+    "tier4_held_out": 0.0
+  },
+  "final": {
+    "tier0_warmup": 0.6,
+    "tier1_short": 0.8,
+    "tier2_medium": 0.4,
+    "tier3_long": 0.4,
+    "tier4_held_out": 0.4
+  }
+}
